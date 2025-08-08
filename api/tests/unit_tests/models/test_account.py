@@ -1,5 +1,5 @@
-from models.account import TenantAccountRole
 from models.account import AccountStatus
+from models.account import TenantAccountRole
 
 
 def test_account_is_privileged_role() -> None:
@@ -15,3 +15,11 @@ def test_account_is_privileged_role() -> None:
     assert not TenantAccountRole.is_privileged_role(TenantAccountRole.NORMAL)
     assert not TenantAccountRole.is_privileged_role(TenantAccountRole.EDITOR)
     assert not TenantAccountRole.is_privileged_role("")
+
+
+def test_account_status() -> None:
+    assert AccountStatus.ACTIVE == "active"
+    assert AccountStatus.BANNED == "banned"
+    assert AccountStatus.CLOSED == "closed"
+    assert AccountStatus.PENDING == "pending"
+    assert AccountStatus.UNINITIALIZED == "uninitialized"
