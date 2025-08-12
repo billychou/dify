@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
-# -*- coding:utf-8 -*-
 """
 File: test_passport.py
 Author: songchuan.zhou(651265044@qq.com)
 Date: 2025/8/11
 Copyright: @三分地技术有限公司
 """
+from datetime import UTC, datetime, timedelta
+
 import jwt
-from datetime import datetime
-from datetime import UTC
-from datetime import timedelta
-from libs.passport import PassportService
-from configs import dify_config
 from icecream import ic
 from werkzeug.exceptions import Unauthorized
+
+from configs import dify_config
 
 
 def test_passport_service_jwt():
@@ -40,7 +38,6 @@ def test_passport_service_jwt():
     # issue a jwt token
     token = jwt.encode(payload, dify_config.SECRET_KEY, algorithm="HS256")
     ic(token)
-    # verify a jwt token
     try:
         payload = jwt.decode(token, dify_config.SECRET_KEY, algorithms=["HS256"])
         ic(payload)

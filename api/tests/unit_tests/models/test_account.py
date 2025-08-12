@@ -1,5 +1,4 @@
-from models.account import AccountStatus
-from models.account import TenantAccountRole
+from models.account import AccountStatus, TenantAccountRole
 
 
 def test_account_is_privileged_role() -> None:
