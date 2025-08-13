@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding:utf-8 -*-
 """
 File: test_common_errors.py
 Author: songchuan.zhou(651265044@qq.com)
