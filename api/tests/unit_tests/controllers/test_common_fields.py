@@ -5,8 +5,7 @@ Author: songchuan.zhou(651265044@qq.com)
 Date: 2025/8/13
 Copyright: @三分地技术有限公司
 """
-from flask_restful import fields
-from flask_restful import marshal_with
+from flask_restful import fields, marshal_with
 
 from controllers.common.fields import parameters_fields
 
