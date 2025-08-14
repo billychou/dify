@@ -18,7 +18,11 @@ def test_account_is_privileged_role() -> None:
 
 def test_account_status() -> None:
     assert AccountStatus.ACTIVE == "active"
+    assert AccountStatus.ACTIVE.value == "active"
     assert AccountStatus.BANNED == "banned"
     assert AccountStatus.CLOSED == "closed"
     assert AccountStatus.PENDING == "pending"
     assert AccountStatus.UNINITIALIZED == "uninitialized"
+
+    print(type(AccountStatus.ACTIVE))
+    print(type(AccountStatus.ACTIVE.value))

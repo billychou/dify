@@ -114,6 +114,25 @@ def guess_file_info_from_response(response: httpx.Response):
 def get_parameters_from_feature_dict(
     *, features_dict: Mapping[str, Any], user_input_form: list[dict[str, Any]]
 ):
+    """
+    从特征字典中提取参数配置，用于构建应用的运行时参数。
+
+    :param features_dict: 特征配置字典，包含各种功能开关和配置项
+    :param user_input_form: 用户输入表单配置列表
+    :return: 包含所有运行时参数的字典，具体包括：
+        - opening_statement: 开场白配置
+        - suggested_questions: 建议问题列表
+        - suggested_questions_after_answer: 回答后建议问题配置
+        - speech_to_text: 语音转文字配置
+        - text_to_speech: 文字转语音配置
+        - retriever_resource: 检索资源配置
+        - annotation_reply: 标注回复配置
+        - more_like_this: 相似内容推荐配置
+        - user_input_form: 用户输入表单配置
+        - sensitive_word_avoidance: 敏感词规避配置
+        - file_upload: 文件上传配置
+        - system_parameters: 系统参数配置（各类文件大小限制）
+    """
     return {
         "opening_statement": features_dict.get("opening_statement"),
         "suggested_questions": features_dict.get("suggested_questions", []),
@@ -131,6 +150,7 @@ def get_parameters_from_feature_dict(
         "sensitive_word_avoidance": features_dict.get(
             "sensitive_word_avoidance", {"enabled": False, "type": "", "configs": []}
         ),
+        # 文件上传配置，默认支持图片上传，包含数量限制、详细程度和传输方式
         "file_upload": features_dict.get(
             "file_upload",
             {
@@ -142,6 +162,7 @@ def get_parameters_from_feature_dict(
                 }
             },
         ),
+        # 系统参数配置，包含各类文件上传大小限制
         "system_parameters": {
             "image_file_size_limit": dify_config.UPLOAD_IMAGE_FILE_SIZE_LIMIT,
             "video_file_size_limit": dify_config.UPLOAD_VIDEO_FILE_SIZE_LIMIT,

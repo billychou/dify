@@ -31,3 +31,34 @@ def test__guess_file_info_from_response():
     response = httpx.get(url)
     file_info = guess_file_info_from_response(response)
     print(file_info)
+
+
+def test__get_parameters_from_feature_dict():
+    """
+    get parmeters from feature dict
+    """
+    from controllers.common.helpers import get_parameters_from_feature_dict
+    from collections.abc import Mapping
+    from typing import Any
+    from typing import List
+
+    features_dict: Mapping[str, Any] = {
+        "name": "test",
+        "description": "test",
+        "parameters": [
+            {
+                "name": "test",
+                "description": "test",
+                "type": "string",
+                "required": True,
+                "default": "test",
+            }
+        ],
+    }
+
+    user_input_form: List[dict[str, Any]] = [{"name": "test"}]
+    ret = get_parameters_from_feature_dict(
+        features_dict=features_dict, user_input_form=user_input_form
+    )
+    print(type(ret))
+    print(ret)
