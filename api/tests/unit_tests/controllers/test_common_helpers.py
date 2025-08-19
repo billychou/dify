@@ -37,10 +37,10 @@ def test__get_parameters_from_feature_dict():
     """
     get parmeters from feature dict
     """
-    from controllers.common.helpers import get_parameters_from_feature_dict
     from collections.abc import Mapping
     from typing import Any
-    from typing import List
+
+    from controllers.common.helpers import get_parameters_from_feature_dict
 
     features_dict: Mapping[str, Any] = {
         "name": "test",
@@ -56,7 +56,7 @@ def test__get_parameters_from_feature_dict():
         ],
     }
 
-    user_input_form: List[dict[str, Any]] = [{"name": "test"}]
+    user_input_form: list[dict[str, Any]] = [{"name": "test"}]
     ret = get_parameters_from_feature_dict(
         features_dict=features_dict, user_input_form=user_input_form
     )
