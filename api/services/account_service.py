@@ -110,7 +110,7 @@ class AccountService:
         redis_client.delete(AccountService._get_account_refresh_token_key(account_id))
 
     @staticmethod
-    def load_user(user_id: str) -> None | Account:
+    def load_user(user_id: str) -> Optional[Account]:
         account = db.session.query(Account).filter_by(id=user_id).first()
         if not account:
             return None
