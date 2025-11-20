@@ -48,13 +48,14 @@ const translation = {
           title: 'Các bước quy trình',
           show: 'Hiển thị',
           hide: 'Ẩn',
-          showDesc: 'Hiển thị hoặc ẩn chi tiết dòng công việc trong WebApp',
+          showDesc: 'Hiển thị hoặc ẩn chi tiết dòng công việc trong web app',
           subTitle: 'Chi tiết quy trình làm việc',
         },
         chatColorTheme: 'Giao diện màu trò chuyện',
         chatColorThemeDesc: 'Thiết lập giao diện màu của chatbot',
         chatColorThemeInverted: 'Đảo ngược',
         invalidHexMessage: 'Giá trị mã màu không hợp lệ',
+        invalidPrivacyPolicy: 'Liên kết chính sách bảo mật không hợp lệ. Vui lòng sử dụng liên kết hợp lệ bắt đầu bằng http hoặc https',
         more: {
           entry: 'Hiển thị thêm cài đặt',
           copyright: 'Bản quyền',
@@ -70,8 +71,8 @@ const translation = {
         },
         sso: {
           title: 'SSO ứng dụng web',
-          description: 'Tất cả người dùng được yêu cầu đăng nhập bằng SSO trước khi sử dụng WebApp',
-          tooltip: 'Liên hệ với quản trị viên để bật SSO WebApp',
+          description: 'Tất cả người dùng được yêu cầu đăng nhập bằng SSO trước khi sử dụng web app',
+          tooltip: 'Liên hệ với quản trị viên để bật SSO web app',
           label: 'Xác thực SSO',
         },
         modalTip: 'Cài đặt ứng dụng web phía máy khách.',
@@ -113,6 +114,7 @@ const translation = {
         },
       },
       launch: 'Phóng',
+      enableTooltip: {},
     },
     apiInfo: {
       title: 'API dịch vụ backend',
@@ -123,6 +125,10 @@ const translation = {
     status: {
       running: 'Đang hoạt động',
       disable: 'Đã tắt',
+    },
+    triggerInfo: {},
+    disableTooltip: {
+      triggerMode: 'Tính năng {{feature}} không được hỗ trợ trong chế độ Nút Kích hoạt.',
     },
   },
   analysis: {

@@ -3,20 +3,11 @@ FROM python:3.12-slim-bookworm AS base
 
 WORKDIR /app/api
 
-# Install Poetry
-ENV POETRY_VERSION=2.0.1
+# Install uv
+ENV UV_VERSION=0.8.9
 
-# if you located in China, you can use aliyun mirror to speed up
-# RUN pip install --no-cache-dir poetry==${POETRY_VERSION} -i https://mirrors.aliyun.com/pypi/simple/
+RUN pip install --no-cache-dir uv==${UV_VERSION}
 
-RUN pip install --no-cache-dir poetry==${POETRY_VERSION}
-
-# Configure Poetry
-ENV POETRY_CACHE_DIR=/tmp/poetry_cache
-ENV POETRY_NO_INTERACTION=1
-ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-ENV POETRY_VIRTUALENVS_CREATE=true
-ENV POETRY_REQUESTS_TIMEOUT=15
 
 FROM base AS packages
 
@@ -24,11 +15,15 @@ FROM base AS packages
 # RUN sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list.d/debian.sources
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc g++ libc-dev libffi-dev libgmp-dev libmpfr-dev libmpc-dev
+    && apt-get install -y --no-install-recommends \
+          # basic environment
+          g++ \
+          # for building gmpy2
+          libmpfr-dev libmpc-dev
 
 # Install Python dependencies
-COPY pyproject.toml poetry.lock ./
-RUN poetry install --sync --no-cache --no-root
+COPY pyproject.toml uv.lock ./
+RUN uv sync --locked --no-dev
 
 # production stage
 FROM base AS production
@@ -46,6 +41,11 @@ EXPOSE 5001
 # set timezone
 ENV TZ=UTC
 
+# Set UTF-8 locale
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+ENV PYTHONIOENCODING=utf-8
+
 WORKDIR /app/api
 
 RUN \
@@ -53,9 +53,13 @@ RUN \
     # Install dependencies
     && apt-get install -y --no-install-recommends \
         # basic environment
-        curl nodejs libgmp-dev libmpfr-dev libmpc-dev \
+        curl nodejs \
+        # for gmpy2 \
+        libgmp-dev libmpfr-dev libmpc-dev \
         # For Security
         expat libldap-2.5-0 perl libsqlite3-0 zlib1g \
+        # install fonts to support the use of tools like pypdfium2
+        fonts-noto-cjk \
         # install a package to improve the accuracy of guessing mime type and file extension
         media-types \
         # install libmagic to support the use of python-magic guess MIMETYPE

@@ -55,6 +55,7 @@ const translation = {
         chatColorThemeDesc: 'Встановіть тему кольору чат-бота',
         chatColorThemeInverted: 'Інвертовано',
         invalidHexMessage: 'Недійсне шістнадцяткове значення',
+        invalidPrivacyPolicy: 'Недійсне посилання на політику конфіденційності. Будь ласка, використовуйте дійсне посилання, яке починається з http або https',
         more: {
           entry: 'Показати додаткові налаштування',
           copyright: 'Авторське право',
@@ -69,9 +70,9 @@ const translation = {
           copyrightTooltip: 'Будь ласка, перейдіть на тарифний план «Professional» або вище',
         },
         sso: {
-          title: 'Єдиний вхід для WebApp',
-          description: 'Усі користувачі повинні увійти в систему за допомогою єдиного входу перед використанням WebApp',
-          tooltip: 'Зверніться до адміністратора, щоб увімкнути єдиний вхід WebApp',
+          title: 'Єдиний вхід для web app',
+          description: 'Усі користувачі повинні увійти в систему за допомогою єдиного входу перед використанням web app',
+          tooltip: 'Зверніться до адміністратора, щоб увімкнути єдиний вхід web app',
           label: 'Автентифікація за допомогою єдиного входу',
         },
         modalTip: 'Налаштування веб-додатку на стороні клієнта.',
@@ -113,6 +114,7 @@ const translation = {
         },
       },
       launch: 'Запуску',
+      enableTooltip: {},
     },
     apiInfo: {
       title: 'API сервісу Backend',
@@ -123,6 +125,10 @@ const translation = {
     status: {
       running: 'У роботі',
       disable: 'Вимкнути',
+    },
+    triggerInfo: {},
+    disableTooltip: {
+      triggerMode: 'Функція {{feature}} не підтримується в режимі вузла тригера.',
     },
   },
   analysis: {

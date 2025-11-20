@@ -171,7 +171,7 @@ const GenerationItem: FC<IGenerationItemProps> = ({
       appId: params.appId as string,
       messageId: messageId!,
     })
-    const logItem = {
+    const logItem = Array.isArray(data.message) ? {
       ...data,
       log: [
         ...data.message,
@@ -185,6 +185,11 @@ const GenerationItem: FC<IGenerationItemProps> = ({
           ]
           : []),
       ],
+    } : {
+      ...data,
+      log: [typeof data.message === 'string' ? {
+        text: data.message,
+      } : data.message],
     }
     setCurrentLogItem(logItem)
     setShowPromptLogModal(true)
@@ -218,7 +223,7 @@ const GenerationItem: FC<IGenerationItemProps> = ({
               {workflowProcessData && (
                 <>
                   <div className={cn(
-                    'p-3 pb-0',
+                    'p-3',
                     showResultTabs && 'border-b border-divider-subtle',
                   )}>
                     {taskId && (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { type FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useContext } from 'use-context-selector'
@@ -55,7 +55,12 @@ export default function MailAndCodeAuth({ isInvite }: MailAndCodeAuthProps) {
     }
   }
 
-  return (<form onSubmit={() => { }}>
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    handleGetEMailVerificationCode()
+  }
+
+  return (<form onSubmit={handleSubmit}>
     <input type='text' className='hidden' />
     <div className='mb-2'>
       <label htmlFor="email" className='system-md-semibold my-2 text-text-secondary'>{t('login.email')}</label>
@@ -63,7 +68,7 @@ export default function MailAndCodeAuth({ isInvite }: MailAndCodeAuthProps) {
         <Input id='email' type="email" disabled={isInvite} value={email} placeholder={t('login.emailPlaceholder') as string} onChange={e => setEmail(e.target.value)} />
       </div>
       <div className='mt-3'>
-        <Button loading={loading} disabled={loading || !email} variant='primary' className='w-full' onClick={handleGetEMailVerificationCode}>{t('login.continueWithCode')}</Button>
+        <Button type='submit' loading={loading} disabled={loading || !email} variant='primary' className='w-full'>{t('login.signup.verifyMail')}</Button>
       </div>
     </div>
   </form>

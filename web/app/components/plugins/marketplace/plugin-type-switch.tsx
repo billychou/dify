@@ -1,36 +1,43 @@
 'use client'
+import { Trigger as TriggerIcon } from '@/app/components/base/icons/src/vender/plugin'
+import cn from '@/utils/classnames'
 import {
   RiArchive2Line,
   RiBrain2Line,
+  RiDatabase2Line,
   RiHammerLine,
   RiPuzzle2Line,
   RiSpeakAiLine,
 } from '@remixicon/react'
-import { PluginType } from '../types'
+import { useCallback, useEffect } from 'react'
+import { PluginCategoryEnum } from '../types'
 import { useMarketplaceContext } from './context'
 import {
   useMixedTranslation,
   useSearchBoxAutoAnimate,
 } from './hooks'
-import cn from '@/utils/classnames'
 
 export const PLUGIN_TYPE_SEARCH_MAP = {
   all: 'all',
-  model: PluginType.model,
-  tool: PluginType.tool,
-  agent: PluginType.agent,
-  extension: PluginType.extension,
+  model: PluginCategoryEnum.model,
+  tool: PluginCategoryEnum.tool,
+  agent: PluginCategoryEnum.agent,
+  extension: PluginCategoryEnum.extension,
+  datasource: PluginCategoryEnum.datasource,
+  trigger: PluginCategoryEnum.trigger,
   bundle: 'bundle',
 }
 type PluginTypeSwitchProps = {
   locale?: string
   className?: string
   searchBoxAutoAnimate?: boolean
+  showSearchParams?: boolean
 }
 const PluginTypeSwitch = ({
   locale,
   className,
   searchBoxAutoAnimate,
+  showSearchParams,
 }: PluginTypeSwitchProps) => {
   const { t } = useMixedTranslation(locale)
   const activePluginType = useMarketplaceContext(s => s.activePluginType)
@@ -54,6 +61,16 @@ const PluginTypeSwitch = ({
       icon: <RiHammerLine className='mr-1.5 h-4 w-4' />,
     },
     {
+      value: PLUGIN_TYPE_SEARCH_MAP.datasource,
+      text: t('plugin.category.datasources'),
+      icon: <RiDatabase2Line className='mr-1.5 h-4 w-4' />,
+    },
+    {
+      value: PLUGIN_TYPE_SEARCH_MAP.trigger,
+      text: t('plugin.category.triggers'),
+      icon: <TriggerIcon className='mr-1.5 h-4 w-4' />,
+    },
+    {
       value: PLUGIN_TYPE_SEARCH_MAP.agent,
       text: t('plugin.category.agents'),
       icon: <RiSpeakAiLine className='mr-1.5 h-4 w-4' />,
@@ -69,6 +86,21 @@ const PluginTypeSwitch = ({
       icon: <RiArchive2Line className='mr-1.5 h-4 w-4' />,
     },
   ]
+
+  const handlePopState = useCallback(() => {
+    if (!showSearchParams)
+      return
+    const url = new URL(window.location.href)
+    const category = url.searchParams.get('category') || PLUGIN_TYPE_SEARCH_MAP.all
+    handleActivePluginTypeChange(category)
+  }, [showSearchParams, handleActivePluginTypeChange])
+
+  useEffect(() => {
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [handlePopState])
 
   return (
     <div className={cn(

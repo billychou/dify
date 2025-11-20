@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePathname, useRouter } from 'next/navigation'
-import produce from 'immer'
+import { produce } from 'immer'
 import { RiEqualizer2Line, RiExternalLinkLine } from '@remixicon/react'
 import { MessageFast } from '@/app/components/base/icons/src/vender/features'
 import FeatureCard from '@/app/components/base/features/new-feature-panel/feature-card'
@@ -12,6 +12,7 @@ import useAnnotationConfig from '@/app/components/base/features/new-feature-pane
 import ConfigParamModal from '@/app/components/base/features/new-feature-panel/annotation-reply/config-param-modal'
 import AnnotationFullModal from '@/app/components/billing/annotation-full/modal'
 import { ANNOTATION_DEFAULT } from '@/config'
+import type { AnnotationReplyConfig } from '@/models/debug'
 
 type Props = {
   disabled?: boolean
@@ -30,7 +31,7 @@ const AnnotationReply = ({
   const featuresStore = useFeaturesStore()
   const annotationReply = useFeatures(s => s.features.annotationReply)
 
-  const updateAnnotationReply = useCallback((newConfig: any) => {
+  const updateAnnotationReply = useCallback((newConfig: AnnotationReplyConfig) => {
     const {
       features,
       setFeatures,

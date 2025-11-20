@@ -2,7 +2,7 @@
 import type { FC } from 'react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import produce from 'immer'
+import { produce } from 'immer'
 import type { Emoji, WorkflowToolProviderParameter, WorkflowToolProviderRequest } from '../types'
 import cn from '@/utils/classnames'
 import Drawer from '@/app/components/base/drawer-plus'
@@ -66,7 +66,7 @@ const WorkflowToolAsModal: FC<Props> = ({
     if (name === '')
       return true
 
-    return /^[a-zA-Z0-9_]+$/.test(name)
+    return /^\w+$/.test(name)
   }
 
   const onConfirm = () => {

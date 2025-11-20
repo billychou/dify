@@ -13,6 +13,7 @@ import Loading from '@/app/components/base/loading'
 import Form from '@/app/components/header/account-setting/model-provider-page/model-modal/Form'
 import { LinkExternal02 } from '@/app/components/base/icons/src/vender/line/general'
 import { useLanguage } from '@/app/components/header/account-setting/model-provider-page/hooks'
+import { noop } from 'lodash-es'
 
 type Props = {
   collection: Collection
@@ -28,7 +29,7 @@ const ConfigCredential: FC<Props> = ({
   onCancel,
   onSaved,
   isHideRemoveBtn,
-  onRemove = () => { },
+  onRemove = noop,
   isSaving,
 }) => {
   const { t } = useTranslation()
@@ -110,7 +111,7 @@ const ConfigCredential: FC<Props> = ({
                       <Button onClick={onRemove}>{t('common.operation.remove')}</Button>
                     )
                   }
-                  < div className='flex space-x-2'>
+                  <div className='flex space-x-2'>
                     <Button onClick={onCancel}>{t('common.operation.cancel')}</Button>
                     <Button loading={isLoading || isSaving} disabled={isLoading || isSaving} variant='primary' onClick={handleSave}>{t('common.operation.save')}</Button>
                   </div>

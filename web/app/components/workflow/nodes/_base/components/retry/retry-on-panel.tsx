@@ -66,7 +66,7 @@ const RetryOnPanel = ({
           retry_config?.retry_enabled && (
             <div className='px-4 pb-2'>
               <div className='mb-1 flex w-full items-center'>
-                <div className='system-xs-medium-uppercase mr-2 grow'>{t('workflow.nodes.common.retry.maxRetries')}</div>
+                <div className='system-xs-medium-uppercase mr-2 grow text-text-secondary'>{t('workflow.nodes.common.retry.maxRetries')}</div>
                 <Slider
                   className='mr-3 w-[108px]'
                   value={retry_config?.max_retries || 3}
@@ -76,9 +76,11 @@ const RetryOnPanel = ({
                 />
                 <Input
                   type='number'
-                  wrapperClassName='w-[80px]'
+                  wrapperClassName='w-[100px]'
                   value={retry_config?.max_retries || 3}
-                  onChange={e => handleMaxRetriesChange(e.target.value as any)}
+                  onChange={e =>
+                    handleMaxRetriesChange(Number.parseInt(e.currentTarget.value, 10) || 3)
+                  }
                   min={1}
                   max={10}
                   unit={t('workflow.nodes.common.retry.times') || ''}
@@ -86,7 +88,7 @@ const RetryOnPanel = ({
                 />
               </div>
               <div className='flex items-center'>
-                <div className='system-xs-medium-uppercase mr-2 grow'>{t('workflow.nodes.common.retry.retryInterval')}</div>
+                <div className='system-xs-medium-uppercase mr-2 grow text-text-secondary'>{t('workflow.nodes.common.retry.retryInterval')}</div>
                 <Slider
                   className='mr-3 w-[108px]'
                   value={retry_config?.retry_interval || 1000}
@@ -96,9 +98,11 @@ const RetryOnPanel = ({
                 />
                 <Input
                   type='number'
-                  wrapperClassName='w-[80px]'
+                  wrapperClassName='w-[100px]'
                   value={retry_config?.retry_interval || 1000}
-                  onChange={e => handleRetryIntervalChange(e.target.value as any)}
+                  onChange={e =>
+                    handleRetryIntervalChange(Number.parseInt(e.currentTarget.value, 10) || 1000)
+                  }
                   min={100}
                   max={5000}
                   unit={t('workflow.nodes.common.retry.ms') || ''}

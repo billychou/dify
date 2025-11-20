@@ -12,13 +12,15 @@ import { BookOpen01 } from '@/app/components/base/icons/src/vender/line/educatio
 import { fetchCodeBasedExtensionList } from '@/service/common'
 import { SimpleSelect } from '@/app/components/base/select'
 import I18n from '@/context/i18n'
-import { LanguagesSupported } from '@/i18n/language'
+import { LanguagesSupported } from '@/i18n-config/language'
 import type {
   CodeBasedExtensionItem,
   ExternalDataTool,
 } from '@/models/common'
 import { useToastContext } from '@/app/components/base/toast'
 import AppIcon from '@/app/components/base/app-icon'
+import { noop } from 'lodash-es'
+import { useDocLink } from '@/context/i18n'
 
 const systemTypes = ['api']
 type ExternalDataToolModalProps = {
@@ -39,6 +41,7 @@ const ExternalDataToolModal: FC<ExternalDataToolModalProps> = ({
   onValidateBeforeSave,
 }) => {
   const { t } = useTranslation()
+  const docLink = useDocLink()
   const { notify } = useToastContext()
   const { locale } = useContext(I18n)
   const [localeData, setLocaleData] = useState(data.type ? data : { ...data, type: 'api' })
@@ -150,7 +153,7 @@ const ExternalDataToolModal: FC<ExternalDataToolModalProps> = ({
       return
     }
 
-    if (localeData.variable && !/[a-zA-Z_][a-zA-Z0-9_]{0,29}/g.test(localeData.variable)) {
+    if (localeData.variable && !/^[a-zA-Z_]\w{0,29}$/.test(localeData.variable)) {
       notify({ type: 'error', message: t('appDebug.varKeyError.notValid', { key: t('appDebug.feature.tools.modal.variableName.title') }) })
       return
     }
@@ -185,7 +188,7 @@ const ExternalDataToolModal: FC<ExternalDataToolModalProps> = ({
   return (
     <Modal
       isShow
-      onClose={() => { }}
+      onClose={noop}
       className='!w-[640px] !max-w-none !p-8 !pb-6'
     >
       <div className='mb-2 text-xl font-semibold text-gray-900'>
@@ -242,7 +245,7 @@ const ExternalDataToolModal: FC<ExternalDataToolModalProps> = ({
             <div className='flex h-9 items-center justify-between text-sm font-medium text-gray-900'>
               {t('common.apiBasedExtension.selector.title')}
               <a
-                href={t('common.apiBasedExtension.linkUrl') || '/'}
+                href={docLink('/guides/extension/api-based-extension/README')}
                 target='_blank' rel='noopener noreferrer'
                 className='group flex items-center text-xs font-normal text-gray-500 hover:text-primary-600'
               >

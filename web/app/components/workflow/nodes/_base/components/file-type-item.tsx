@@ -8,6 +8,7 @@ import { FILE_EXTS } from '@/app/components/base/prompt-editor/constants'
 import TagInput from '@/app/components/base/tag-input'
 import Checkbox from '@/app/components/base/checkbox'
 import { FileTypeIcon } from '@/app/components/base/file-uploader'
+import { noop } from 'lodash-es'
 
 type Props = {
   type: SupportUploadFileTypes.image | SupportUploadFileTypes.document | SupportUploadFileTypes.audio | SupportUploadFileTypes.video | SupportUploadFileTypes.custom
@@ -22,7 +23,7 @@ const FileTypeItem: FC<Props> = ({
   selected,
   onToggle,
   customFileTypes = [],
-  onCustomFileTypesChange = () => { },
+  onCustomFileTypesChange = noop,
 }) => {
   const { t } = useTranslation()
 
@@ -46,7 +47,7 @@ const FileTypeItem: FC<Props> = ({
         ? (
           <div>
             <div className='flex items-center border-b border-divider-subtle p-3 pb-2'>
-              <FileTypeIcon className='shrink-0' type={type} size='md' />
+              <FileTypeIcon className='shrink-0' type={type} size='lg' />
               <div className='system-sm-medium mx-2 grow text-text-primary'>{t(`appDebug.variableConfig.file.${type}.name`)}</div>
               <Checkbox className='shrink-0' checked={selected} />
             </div>
@@ -61,7 +62,7 @@ const FileTypeItem: FC<Props> = ({
         )
         : (
           <div className='flex items-center'>
-            <FileTypeIcon className='shrink-0' type={type} size='md' />
+            <FileTypeIcon className='shrink-0' type={type} size='lg' />
             <div className='mx-2 grow'>
               <div className='system-sm-medium text-text-primary'>{t(`appDebug.variableConfig.file.${type}.name`)}</div>
               <div className='system-2xs-regular-uppercase mt-1 text-text-tertiary'>{type !== SupportUploadFileTypes.custom ? FILE_EXTS[type].join(', ') : t('appDebug.variableConfig.file.custom.description')}</div>

@@ -55,6 +55,7 @@ const translation = {
         chatColorThemeDesc: 'Nastavite barvno temo klepetalnega bota',
         chatColorThemeInverted: 'Inverzna',
         invalidHexMessage: 'Neveljavna vrednost heksa',
+        invalidPrivacyPolicy: 'Neveljavna povezava do pravilnika o zasebnosti. Uporabite veljavno povezavo, ki se začne z http ali https',
         sso: {
           label: 'SSO avtentikacija',
           title: 'SSO spletne aplikacije',
@@ -113,6 +114,7 @@ const translation = {
         },
       },
       launch: 'Začetek',
+      enableTooltip: {},
     },
     apiInfo: {
       title: 'API storitev v ozadju',
@@ -123,6 +125,10 @@ const translation = {
     status: {
       running: 'V storitvi',
       disable: 'Onemogočeno',
+    },
+    triggerInfo: {},
+    disableTooltip: {
+      triggerMode: 'Funkcija {{feature}} ni podprta v načinu vozlišča sprožilca.',
     },
   },
   analysis: {

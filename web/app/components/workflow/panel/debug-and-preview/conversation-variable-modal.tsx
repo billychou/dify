@@ -9,8 +9,8 @@ import Modal from '@/app/components/base/modal'
 import { BubbleX } from '@/app/components/base/icons/src/vender/line/others'
 import CodeEditor from '@/app/components/workflow/nodes/_base/components/editor/code-editor'
 import {
-  Clipboard,
-  ClipboardCheck,
+  Copy,
+  CopyCheck,
 } from '@/app/components/base/icons/src/vender/line/files'
 import { useStore } from '@/app/components/workflow/store'
 import type {
@@ -21,6 +21,7 @@ import { CodeLanguage } from '@/app/components/workflow/nodes/code/types'
 import useTimestamp from '@/hooks/use-timestamp'
 import { fetchCurrentValueOfConversationVariable } from '@/service/workflow'
 import cn from '@/utils/classnames'
+import { noop } from 'lodash-es'
 
 export type Props = {
   conversationID: string
@@ -76,7 +77,7 @@ const ConversationVariableModal = ({
   return (
     <Modal
       isShow
-      onClose={() => { }}
+      onClose={noop}
       className={cn('h-[640px] w-[920px] max-w-[920px] p-0')}
     >
       <div className='absolute right-4 top-4 cursor-pointer p-2' onClick={onHide}>
@@ -106,7 +107,7 @@ const ConversationVariableModal = ({
           <div className='flex h-0 grow flex-col p-4 pt-2'>
             <div className='mb-2 flex shrink-0 items-center gap-2'>
               <div className='system-xs-medium-uppercase shrink-0 text-text-tertiary'>{t('workflow.chatVariable.storedContent').toLocaleUpperCase()}</div>
-              <div className='h-[1px] grow' style={{
+              <div className='h-px grow' style={{
                 background: 'linear-gradient(to right, rgba(16, 24, 40, 0.08) 0%, rgba(255, 255, 255) 100%)',
               }}></div>
               {latestValueTimestampMap[currentVar.id] && (
@@ -121,10 +122,10 @@ const ConversationVariableModal = ({
                     <div className='flex items-center p-1'>
                       {!isCopied
                         ? (
-                          <Clipboard className='h-4 w-4 cursor-pointer text-text-tertiary' onClick={handleCopy} />
+                          <Copy className='h-4 w-4 cursor-pointer text-text-tertiary' onClick={handleCopy} />
                         )
                         : (
-                          <ClipboardCheck className='h-4 w-4 text-text-tertiary' />
+                          <CopyCheck className='h-4 w-4 text-text-tertiary' />
                         )
                       }
                     </div>

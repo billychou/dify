@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { SVG } from '@svgdotjs/svg.js'
-import ImagePreview from '@/app/components/base/image-uploader/image-preview'
 import DOMPurify from 'dompurify'
+import ImagePreview from '@/app/components/base/image-uploader/image-preview'
 
-export const SVGRenderer = ({ content }: { content: string }) => {
+const SVGRenderer = ({ content }: { content: string }) => {
   const svgRef = useRef<HTMLDivElement>(null)
   const [imagePreview, setImagePreview] = useState('')
   const [windowSize, setWindowSize] = useState({
@@ -51,7 +51,7 @@ export const SVGRenderer = ({ content }: { content: string }) => {
           setImagePreview(svgToDataURL(svgElement as Element))
         })
       }
-      catch (error) {
+      catch {
         if (svgRef.current)
           svgRef.current.innerHTML = '<span style="padding: 1rem;">Error rendering SVG. Wait for the image content to complete.</span>'
       }

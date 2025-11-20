@@ -2,7 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/anaconda
 {
 	"name": "Python 3.12",
-	"build": { 
+	"build": {
 		"context": "..",
 		"dockerfile": "Dockerfile"
 	},
@@ -11,7 +11,7 @@
 			"nodeGypDependencies": true,
 			"version": "lts"
 		},
-		"ghcr.io/devcontainers-contrib/features/npm-package:1": {
+		"ghcr.io/devcontainers-extra/features/npm-package:1": {
 			"package": "typescript",
 			"version": "latest"
 		},

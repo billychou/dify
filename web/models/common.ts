@@ -1,7 +1,20 @@
-import type { I18nText } from '@/i18n/language'
+import type { I18nText } from '@/i18n-config/language'
+import type { Model } from '@/types/app'
 
 export type CommonResponse = {
   result: 'success' | 'fail'
+}
+
+export type FileDownloadResponse = {
+  id: string
+  name: string
+  size: number
+  extension: string
+  url: string
+  download_url: string
+  mime_type: string
+  created_by: string
+  created_at: number
 }
 
 export type OauthResponse = {
@@ -178,9 +191,15 @@ export enum DataSourceCategory {
 export enum DataSourceProvider {
   fireCrawl = 'firecrawl',
   jinaReader = 'jinareader',
+  waterCrawl = 'watercrawl',
 }
 
 export type FirecrawlConfig = {
+  api_key: string
+  base_url: string
+}
+
+export type WatercrawlConfig = {
   api_key: string
   base_url: string
 }
@@ -217,6 +236,7 @@ export type FileUploadConfigResponse = {
   audio_file_size_limit?: number // default is 50MB
   video_file_size_limit?: number // default is 100MB
   workflow_file_upload_limit?: number // default is 10
+  file_upload_limit: number // default is 5
 }
 
 export type InvitationResult = {
@@ -283,5 +303,15 @@ export type ModerationService = (
   body: {
     app_id: string
     text: string
-  }
+  },
 ) => Promise<ModerateResponse>
+
+export type StructuredOutputRulesRequestBody = {
+  instruction: string
+  model_config: Model
+}
+
+export type StructuredOutputRulesResponse = {
+  output: string
+  error?: string
+}

@@ -77,7 +77,9 @@ const ConditionItem = ({
 
   const valueAndValueMethod = useMemo(() => {
     if (
-      (currentMetadata?.type === MetadataFilteringVariableType.string || currentMetadata?.type === MetadataFilteringVariableType.number)
+      (currentMetadata?.type === MetadataFilteringVariableType.string
+       || currentMetadata?.type === MetadataFilteringVariableType.number
+       || currentMetadata?.type === MetadataFilteringVariableType.select)
       && typeof condition.value === 'string'
     ) {
       const regex = isCommonVariable ? COMMON_VARIABLE_REGEX : VARIABLE_REGEX
@@ -122,11 +124,11 @@ const ConditionItem = ({
       )}>
         <div className='flex items-center p-1'>
           <div className='w-0 grow'>
-            <div className='inline-flex h-6 items-center rounded-md border-[0.5px] border-components-panel-border-subtle bg-components-badge-white-to-dark pl-1 pr-1.5 shadow-xs'>
+            <div className='flex h-6 min-w-0 items-center rounded-md border-[0.5px] border-components-panel-border-subtle bg-components-badge-white-to-dark pl-1 pr-1.5 shadow-xs'>
               <div className='mr-0.5 p-[1px]'>
                 <MetadataIcon type={currentMetadata?.type} className='h-3 w-3' />
               </div>
-              <div className='system-xs-medium mr-0.5 text-text-secondary'>{currentMetadata?.name}</div>
+              <div className='system-xs-medium mr-0.5 min-w-0 flex-1 truncate text-text-secondary'>{currentMetadata?.name}</div>
               <div className='system-xs-regular text-text-tertiary'>{currentMetadata?.type}</div>
             </div>
           </div>
@@ -140,7 +142,9 @@ const ConditionItem = ({
         </div>
         <div className='border-t border-t-divider-subtle'>
           {
-            !comparisonOperatorNotRequireValue(condition.comparison_operator) && currentMetadata?.type === MetadataFilteringVariableType.string && (
+            !comparisonOperatorNotRequireValue(condition.comparison_operator)
+            && (currentMetadata?.type === MetadataFilteringVariableType.string
+             || currentMetadata?.type === MetadataFilteringVariableType.select) && (
               <ConditionString
                 valueMethod={localValueMethod}
                 onValueMethodChange={handleValueMethodChange}

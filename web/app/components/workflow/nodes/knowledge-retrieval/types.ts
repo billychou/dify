@@ -80,6 +80,7 @@ export enum MetadataFilteringVariableType {
   string = 'string',
   number = 'number',
   time = 'time',
+  select = 'select',
 }
 
 export type MetadataFilteringCondition = {
@@ -127,6 +128,6 @@ export type MetadataShape = {
   availableNumberVars?: NodeOutPutVar[]
   availableNumberNodesWithParent?: Node[]
   isCommonVariable?: boolean
-  availableCommonStringVars?: { name: string; type: string; }[]
-  availableCommonNumberVars?: { name: string; type: string; }[]
+  availableCommonStringVars?: { name: string; type: string; value: string }[]
+  availableCommonNumberVars?: { name: string; type: string; value: string }[]
 }

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import './weighted-score.css'
 import Slider from '@/app/components/base/slider'
 import cn from '@/utils/classnames'
+import { noop } from 'lodash-es'
 
 const formatNumber = (value: number) => {
   if (value > 0 && value < 1)
@@ -20,10 +21,12 @@ type Value = {
 type WeightedScoreProps = {
   value: Value
   onChange: (value: Value) => void
+  readonly?: boolean
 }
 const WeightedScore = ({
   value,
-  onChange = () => {},
+  onChange = noop,
+  readonly = false,
 }: WeightedScoreProps) => {
   const { t } = useTranslation()
 
@@ -36,8 +39,9 @@ const WeightedScore = ({
           min={0}
           step={0.1}
           value={value.value[0]}
-          onChange={v => onChange({ value: [v, (10 - v * 10) / 10] })}
+          onChange={v => !readonly && onChange({ value: [v, (10 - v * 10) / 10] })}
           trackClassName='weightedScoreSliderTrack'
+          disabled={readonly}
         />
         <div className='mt-3 flex justify-between'>
           <div className='system-xs-semibold-uppercase flex w-[90px] shrink-0 items-center text-util-colors-blue-light-blue-light-500'>

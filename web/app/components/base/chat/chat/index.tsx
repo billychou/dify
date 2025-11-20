@@ -160,8 +160,13 @@ const Chat: FC<ChatProps> = ({
   })
 
   useEffect(() => {
-    window.addEventListener('resize', debounce(handleWindowResize))
-    return () => window.removeEventListener('resize', handleWindowResize)
+    const debouncedHandler = debounce(handleWindowResize, 200)
+    window.addEventListener('resize', debouncedHandler)
+
+    return () => {
+      window.removeEventListener('resize', debouncedHandler)
+      debouncedHandler.cancel()
+    }
   }, [handleWindowResize])
 
   useEffect(() => {
@@ -196,7 +201,8 @@ const Chat: FC<ChatProps> = ({
     const chatContainer = chatContainerRef.current
     if (chatContainer) {
       const setUserScrolled = () => {
-        if (chatContainer)
+        // eslint-disable-next-line sonarjs/no-gratuitous-expressions
+        if (chatContainer) // its in event callback, chatContainer may be null
           userScrolledRef.current = chatContainer.scrollHeight - chatContainer.scrollTop > chatContainer.clientHeight
       }
       chatContainer.addEventListener('scroll', setUserScrolled)
@@ -207,7 +213,7 @@ const Chat: FC<ChatProps> = ({
   useEffect(() => {
     if (!sidebarCollapseState)
       setTimeout(() => handleWindowResize(), 200)
-  }, [sidebarCollapseState])
+  }, [handleWindowResize, sidebarCollapseState])
 
   const hasTryToAsk = config?.suggested_questions_after_answer?.enabled && !!suggestedQuestions?.length && onSend
 
@@ -264,6 +270,8 @@ const Chat: FC<ChatProps> = ({
                     item={item}
                     questionIcon={questionIcon}
                     theme={themeBuilder?.theme}
+                    enableEdit={config?.questionEditEnable}
+                    switchSibling={switchSibling}
                   />
                 )
               })
@@ -271,7 +279,7 @@ const Chat: FC<ChatProps> = ({
           </div>
         </div>
         <div
-          className={`absolute bottom-0 flex justify-center bg-chat-input-mask ${(hasTryToAsk || !noChatInput || !noStopResponding) && chatFooterClassName}`}
+          className={`absolute bottom-0 z-10 flex justify-center bg-chat-input-mask ${(hasTryToAsk || !noChatInput || !noStopResponding) && chatFooterClassName}`}
           ref={chatFooterRef}
         >
           <div
@@ -281,9 +289,9 @@ const Chat: FC<ChatProps> = ({
             {
               !noStopResponding && isResponding && (
                 <div className='mb-2 flex justify-center'>
-                  <Button onClick={onStopResponding}>
-                    <StopCircle className='mr-[5px] h-3.5 w-3.5 text-gray-500' />
-                    <span className='text-xs font-normal text-gray-500'>{t('appDebug.operation.stopResponding')}</span>
+                  <Button className='border-components-panel-border bg-components-panel-bg text-components-button-secondary-text' onClick={onStopResponding}>
+                    <StopCircle className='mr-[5px] h-3.5 w-3.5' />
+                    <span className='text-xs font-normal'>{t('appDebug.operation.stopResponding')}</span>
                   </Button>
                 </div>
               )
@@ -300,6 +308,7 @@ const Chat: FC<ChatProps> = ({
             {
               !noChatInput && (
                 <ChatInputArea
+                  botName={appData?.site.title || 'Bot'}
                   disabled={inputDisabled}
                   showFeatureBar={showFeatureBar}
                   showFileUpload={showFileUpload}

@@ -2,7 +2,7 @@
 import type { FC } from 'react'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import produce from 'immer'
+import { produce } from 'immer'
 import { useContext } from 'use-context-selector'
 import { ToastContext } from '@/app/components/base/toast'
 import VariableTypeSelector from '@/app/components/workflow/panel/chat-variable-panel/components/variable-type-select'
@@ -38,7 +38,7 @@ const ObjectValueItem: FC<Props> = ({
   const handleKeyChange = useCallback((index: number) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const newList = produce(list, (draft: any[]) => {
-        if (!/^[a-zA-Z0-9_]+$/.test(e.target.value))
+        if (!/^\w+$/.test(e.target.value))
           return notify({ type: 'error', message: 'key is can only contain letters, numbers and underscores' })
         draft[index].key = e.target.value
       })

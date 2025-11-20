@@ -55,11 +55,12 @@ const translation = {
         chatColorThemeDesc: 'Установите цветовую тему чат-бота',
         chatColorThemeInverted: 'Инвертированные цвета',
         invalidHexMessage: 'Неверное HEX-значение',
+        invalidPrivacyPolicy: 'Недопустимая ссылка на политику конфиденциальности. Пожалуйста, используйте действительную ссылку, начинающуюся с http или https',
         sso: {
           label: 'SSO аутентификация',
-          title: 'WebApp SSO',
-          description: 'Все пользователи должны войти в систему с помощью SSO перед использованием WebApp',
-          tooltip: 'Обратитесь к администратору, чтобы включить WebApp SSO',
+          title: 'web app SSO',
+          description: 'Все пользователи должны войти в систему с помощью SSO перед использованием web app',
+          tooltip: 'Обратитесь к администратору, чтобы включить web app SSO',
         },
         more: {
           entry: 'Показать больше настроек',
@@ -113,6 +114,7 @@ const translation = {
         },
       },
       launch: 'Баркас',
+      enableTooltip: {},
     },
     apiInfo: {
       title: 'API серверной части',
@@ -123,6 +125,10 @@ const translation = {
     status: {
       running: 'В работе',
       disable: 'Отключено',
+    },
+    triggerInfo: {},
+    disableTooltip: {
+      triggerMode: 'Функция {{feature}} не поддерживается в режиме узла триггера.',
     },
   },
   analysis: {

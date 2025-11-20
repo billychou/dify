@@ -6,7 +6,7 @@ import {
 import Chat from '@/app/components/base/chat/chat'
 import { useChat } from '@/app/components/base/chat/chat/hooks'
 import { useDebugConfigurationContext } from '@/context/debug-configuration'
-import type { ChatConfig, ChatItem, ChatItemInTree, OnSend } from '@/app/components/base/chat/types'
+import type { ChatConfig, ChatItem, OnSend } from '@/app/components/base/chat/types'
 import { useProviderContext } from '@/context/provider-context'
 import {
   fetchConversationMessages,
@@ -21,6 +21,7 @@ import { useFeatures } from '@/app/components/base/features/hooks'
 import { getLastAnswer, isValidGeneratedAnswer } from '@/app/components/base/chat/utils'
 import type { InputForm } from '@/app/components/base/chat/chat/type'
 import { canFindTool } from '@/utils'
+import type { FileEntity } from '@/app/components/base/file-uploader/types'
 
 type DebugWithSingleModelProps = {
   checkCanSend?: () => boolean
@@ -125,10 +126,14 @@ const DebugWithSingleModel = (
     )
   }, [appId, chatList, checkCanSend, completionParams, config, handleSend, inputs, modelConfig.mode, modelConfig.model_id, modelConfig.provider, textGenerationModelList])
 
-  const doRegenerate = useCallback((chatItem: ChatItemInTree) => {
-    const question = chatList.find(item => item.id === chatItem.parentMessageId)!
+  const doRegenerate = useCallback((chatItem: ChatItem, editedQuestion?: { message: string, files?: FileEntity[] }) => {
+    const question = editedQuestion ? chatItem : chatList.find(item => item.id === chatItem.parentMessageId)!
     const parentAnswer = chatList.find(item => item.id === question.parentMessageId)
-    doSend(question.content, question.message_files, true, isValidGeneratedAnswer(parentAnswer) ? parentAnswer : null)
+    doSend(editedQuestion ? editedQuestion.message : question.content,
+      editedQuestion ? editedQuestion.files : question.message_files,
+      true,
+      isValidGeneratedAnswer(parentAnswer) ? parentAnswer : null,
+    )
   }, [chatList, doSend])
 
   const allToolIcons = useMemo(() => {

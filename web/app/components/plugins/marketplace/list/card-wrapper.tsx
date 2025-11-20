@@ -1,6 +1,7 @@
 'use client'
+import { useTheme } from 'next-themes'
 import { RiArrowRightUpLine } from '@remixicon/react'
-import { getPluginLinkInMarketplace } from '../utils'
+import { getPluginDetailLinkInMarketplace, getPluginLinkInMarketplace } from '../utils'
 import Card from '@/app/components/plugins/card'
 import CardMoreInfo from '@/app/components/plugins/card/card-more-info'
 import type { Plugin } from '@/app/components/plugins/types'
@@ -22,12 +23,13 @@ const CardWrapper = ({
   locale,
 }: CardWrapperProps) => {
   const { t } = useMixedTranslation(locale)
+  const { theme } = useTheme()
   const [isShowInstallFromMarketplace, {
     setTrue: showInstallFromMarketplace,
     setFalse: hideInstallFromMarketplace,
   }] = useBoolean(false)
   const { locale: localeFromLocale } = useI18N()
-  const { tagsMap } = useTags(t)
+  const { getTagLabel } = useTags(t)
 
   if (showInstallButton) {
     return (
@@ -41,35 +43,33 @@ const CardWrapper = ({
           footer={
             <CardMoreInfo
               downloadCount={plugin.install_count}
-              tags={plugin.tags.map(tag => tagsMap[tag.name].label)}
+              tags={plugin.tags.map(tag => getTagLabel(tag.name))}
             />
           }
         />
         {
-          showInstallButton && (
-            <div className='absolute bottom-0 hidden w-full items-center space-x-2 rounded-b-xl bg-gradient-to-tr from-components-panel-on-panel-item-bg to-background-gradient-mask-transparent px-4 pb-4 pt-8 group-hover:flex'>
+          <div className='absolute bottom-0 hidden w-full items-center space-x-2 rounded-b-xl bg-gradient-to-tr from-components-panel-on-panel-item-bg to-background-gradient-mask-transparent px-4 pb-4 pt-8 group-hover:flex'>
+            <Button
+              variant='primary'
+              className='w-[calc(50%-4px)]'
+              onClick={showInstallFromMarketplace}
+            >
+              {t('plugin.detailPanel.operation.install')}
+            </Button>
+            <a href={getPluginLinkInMarketplace(plugin, { language: localeFromLocale, theme })} target='_blank' className='block w-[calc(50%-4px)] flex-1 shrink-0'>
               <Button
-                variant='primary'
-                className='w-[calc(50%-4px)]'
-                onClick={showInstallFromMarketplace}
+                className='w-full gap-0.5'
               >
-                {t('plugin.detailPanel.operation.install')}
+                {t('plugin.detailPanel.operation.detail')}
+                <RiArrowRightUpLine className='ml-1 h-4 w-4' />
               </Button>
-              <a href={`${getPluginLinkInMarketplace(plugin)}?language=${localeFromLocale}`} target='_blank' className='block w-[calc(50%-4px)] flex-1 shrink-0'>
-                <Button
-                  className='w-full gap-0.5'
-                >
-                  {t('plugin.detailPanel.operation.detail')}
-                  <RiArrowRightUpLine className='ml-1 h-4 w-4' />
-                </Button>
-              </a>
-            </div>
-          )
+            </a>
+          </div>
         }
         {
           isShowInstallFromMarketplace && (
             <InstallFromMarketplace
-              manifest={plugin as any}
+              manifest={plugin}
               uniqueIdentifier={plugin.latest_package_identifier}
               onClose={hideInstallFromMarketplace}
               onSuccess={hideInstallFromMarketplace}
@@ -83,7 +83,7 @@ const CardWrapper = ({
   return (
     <a
       className='group relative inline-block cursor-pointer rounded-xl'
-      href={getPluginLinkInMarketplace(plugin)}
+      href={getPluginDetailLinkInMarketplace(plugin)}
     >
       <Card
         key={plugin.name}
@@ -92,7 +92,7 @@ const CardWrapper = ({
         footer={
           <CardMoreInfo
             downloadCount={plugin.install_count}
-            tags={plugin.tags.map(tag => tagsMap[tag.name].label)}
+            tags={plugin.tags.map(tag => getTagLabel(tag.name))}
           />
         }
       />

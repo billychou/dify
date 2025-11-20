@@ -33,7 +33,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
 }) => {
   const { t } = useTranslation()
   const treeNodes = formatNodeList(list, t)
-  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(new Set())
+  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(() => new Set())
   const [hoveredParallel, setHoveredParallel] = useState<string | null>(null)
 
   const toggleCollapse = (id: string) => {
@@ -86,6 +86,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
     setShowLoopingDetailFalse,
     loopResultList,
     loopResultDurationMap,
+    loopResultVariableMap,
     handleShowLoopResultList,
 
     agentOrToolLogItemStack,
@@ -108,7 +109,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
           onMouseLeave={handleParallelMouseLeave}
         >
           <div className="mb-1 flex items-center">
-            <button
+            <button type="button"
               onClick={() => toggleCollapse(node.id)}
               className={cn(
                 'mr-2 transition-colors',
@@ -144,6 +145,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
           </div>
           <NodePanel
             nodeInfo={node!}
+            allExecutions={list}
             onShowIterationDetail={handleShowIterationResultList}
             onShowLoopDetail={handleShowLoopResultList}
             onShowRetryDetail={handleShowRetryResultList}
@@ -172,6 +174,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
         setShowLoopingDetailFalse={setShowLoopingDetailFalse}
         loopResultList={loopResultList}
         loopResultDurationMap={loopResultDurationMap}
+        loopResultVariableMap={loopResultVariableMap}
 
         agentOrToolLogItemStack={agentOrToolLogItemStack}
         agentOrToolLogListMap={agentOrToolLogListMap}

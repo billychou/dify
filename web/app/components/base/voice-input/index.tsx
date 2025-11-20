@@ -81,7 +81,8 @@ const VoiceInput = ({
     setStartRecord(false)
     setStartConvert(true)
     recorder.current.stop()
-    drawRecordId.current && cancelAnimationFrame(drawRecordId.current)
+    if (drawRecordId.current)
+      cancelAnimationFrame(drawRecordId.current)
     drawRecordId.current = null
     const canvas = canvasRef.current!
     const ctx = ctxRef.current!
@@ -111,7 +112,7 @@ const VoiceInput = ({
       onConverted(audioResponse.text)
       onCancel()
     }
-    catch (e) {
+    catch {
       onConverted('')
       onCancel()
     }
@@ -125,7 +126,7 @@ const VoiceInput = ({
       if (canvasRef.current && ctxRef.current)
         drawRecord()
     }
-    catch (e) {
+    catch {
       onCancel()
     }
   }

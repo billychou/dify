@@ -34,7 +34,8 @@ const Panel: FC<NodePanelProps<StartNodeType>> = ({
   } = useConfig(id, data)
 
   const handleAddVarConfirm = (payload: InputVar) => {
-    handleAddVariable(payload)
+    const isValid = handleAddVariable(payload)
+    if (!isValid) return
     hideAddVarModal()
   }
 
@@ -61,10 +62,10 @@ const Panel: FC<NodePanelProps<StartNodeType>> = ({
                   <VarItem
                     readonly
                     payload={{
-                      variable: 'sys.query',
+                      variable: 'userinput.query',
                     } as any}
                     rightContent={
-                      <div className='text-xs font-normal text-gray-500'>
+                      <div className='text-xs font-normal text-text-tertiary'>
                         String
                       </div>
                     }
@@ -75,88 +76,15 @@ const Panel: FC<NodePanelProps<StartNodeType>> = ({
                 readonly
                 showLegacyBadge={!isChatMode}
                 payload={{
-                  variable: 'sys.files',
+                  variable: 'userinput.files',
                 } as any}
                 rightContent={
-                  <div className='text-xs font-normal text-gray-500'>
+                  <div className='text-xs font-normal text-text-tertiary'>
                     Array[File]
                   </div>
                 }
               />
-              {
-                isChatMode && (
-                  <>
-                    <VarItem
-                      readonly
-                      payload={{
-                        variable: 'sys.dialogue_count',
-                      } as any}
-                      rightContent={
-                        <div className='text-xs font-normal text-gray-500'>
-                          Number
-                        </div>
-                      }
-                    />
-                    <VarItem
-                      readonly
-                      payload={{
-                        variable: 'sys.conversation_id',
-                      } as any}
-                      rightContent={
-                        <div className='text-xs font-normal text-gray-500'>
-                          String
-                        </div>
-                      }
-                    />
-                  </>
-                )
-              }
-              <VarItem
-                readonly
-                payload={{
-                  variable: 'sys.user_id',
-                } as any}
-                rightContent={
-                  <div className='text-xs font-normal text-gray-500'>
-                    String
-                  </div>
-                }
-              />
-              <VarItem
-                readonly
-                payload={{
-                  variable: 'sys.app_id',
-                } as any}
-                rightContent={
-                  <div className='text-xs font-normal text-gray-500'>
-                    String
-                  </div>
-                }
-              />
-              <VarItem
-                readonly
-                payload={{
-                  variable: 'sys.workflow_id',
-                } as any}
-                rightContent={
-                  <div className='text-xs font-normal text-gray-500'>
-                    String
-                  </div>
-                }
-              />
-              <VarItem
-                readonly
-                payload={{
-                  variable: 'sys.workflow_run_id',
-                } as any}
-                rightContent={
-                  <div className='text-xs font-normal text-gray-500'>
-                    String
-                  </div>
-                }
-              />
             </div>
-
           </>
         </Field>
       </div>

@@ -6,16 +6,17 @@ import { useContext } from 'use-context-selector'
 import { useTranslation } from 'react-i18next'
 import cn from '@/utils/classnames'
 import {
-  Clipboard,
-  ClipboardCheck,
+  Copy,
+  CopyCheck,
 } from '@/app/components/base/icons/src/vender/line/files'
 import PromptEditor from '@/app/components/base/prompt-editor'
 import type { ExternalDataTool } from '@/models/common'
 import ConfigContext from '@/context/debug-configuration'
 import { useModalContext } from '@/context/modal-context'
 import { useToastContext } from '@/app/components/base/toast'
-
 import s from '@/app/components/app/configuration/config-prompt/style.module.css'
+import { noop } from 'lodash-es'
+
 type Props = {
   className?: string
   type: 'first-prompt' | 'next-iteration'
@@ -50,7 +51,9 @@ const Editor: FC<Props> = ({
   const handleOpenExternalDataToolModal = () => {
     setShowExternalDataToolModal({
       payload: {},
-      onSaveCallback: (newExternalDataTool: ExternalDataTool) => {
+      onSaveCallback: (newExternalDataTool?: ExternalDataTool) => {
+        if (!newExternalDataTool)
+          return
         setExternalDataToolsConfig([...externalDataToolsConfig, newExternalDataTool])
       },
       onValidateBeforeSaveCallback: (newExternalDataTool: ExternalDataTool) => {
@@ -80,13 +83,13 @@ const Editor: FC<Props> = ({
           <div className={cn(s.optionWrap, 'items-center space-x-1')}>
             {!isCopied
               ? (
-                <Clipboard className='h-6 w-6 cursor-pointer p-1 text-gray-500' onClick={() => {
+                <Copy className='h-6 w-6 cursor-pointer p-1 text-gray-500' onClick={() => {
                   copy(value)
                   setIsCopied(true)
                 }} />
               )
               : (
-                <ClipboardCheck className='h-6 w-6 p-1 text-gray-500' />
+                <CopyCheck className='h-6 w-6 p-1 text-gray-500' />
               )}
           </div>
         </div>
@@ -106,7 +109,7 @@ const Editor: FC<Props> = ({
             }}
             variableBlock={{
               show: true,
-              variables: modelConfig.configs.prompt_variables.map(item => ({
+              variables: modelConfig.configs.prompt_variables.filter(item => item.key && item.key.trim() && item.name && item.name.trim()).map(item => ({
                 name: item.name,
                 value: item.key,
               })),
@@ -128,14 +131,14 @@ const Editor: FC<Props> = ({
                 user: '',
                 assistant: '',
               },
-              onEditRole: () => { },
+              onEditRole: noop,
             }}
             queryBlock={{
               show: false,
               selectable: false,
             }}
             onChange={onChange}
-            onBlur={() => { }}
+            onBlur={noop}
           />
         </div>
         <div className='flex pb-2 pl-4'>

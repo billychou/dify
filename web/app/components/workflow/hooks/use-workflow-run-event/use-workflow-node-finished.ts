@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useStoreApi } from 'reactflow'
-import produce from 'immer'
+import { produce } from 'immer'
 import type { NodeFinishedResponse } from '@/types/workflow'
 import {
   BlockEnum,
@@ -59,7 +59,7 @@ export const useWorkflowNodeFinished = () => {
       incomeEdges.forEach((edge) => {
         edge.data = {
           ...edge.data,
-          _targetRunningStatus: data.status as any,
+          _targetRunningStatus: data.status,
         }
       })
     })

@@ -1,19 +1,20 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useWorkflow } from '../hooks'
+import { useFormatTimeFromNow } from '@/hooks/use-format-time-from-now'
 import { useStore } from '@/app/components/workflow/store'
 import useTimestamp from '@/hooks/use-timestamp'
 
 const EditingTitle = () => {
   const { t } = useTranslation()
   const { formatTime } = useTimestamp()
-  const { formatTimeFromNow } = useWorkflow()
+  const { formatTimeFromNow } = useFormatTimeFromNow()
   const draftUpdatedAt = useStore(state => state.draftUpdatedAt)
   const publishedAt = useStore(state => state.publishedAt)
   const isSyncingWorkflowDraft = useStore(s => s.isSyncingWorkflowDraft)
+  const maximizeCanvas = useStore(s => s.maximizeCanvas)
 
   return (
-    <div className='system-xs-regular flex h-[18px] items-center text-text-tertiary'>
+    <div className={`system-xs-regular flex h-[18px] min-w-[300px] items-center whitespace-nowrap text-text-tertiary ${maximizeCanvas ? 'ml-2' : ''}`}>
       {
         !!draftUpdatedAt && (
           <>

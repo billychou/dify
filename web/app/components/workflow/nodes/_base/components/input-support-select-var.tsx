@@ -12,6 +12,8 @@ import { BlockEnum } from '@/app/components/workflow/types'
 import PromptEditor from '@/app/components/base/prompt-editor'
 import { Variable02 } from '@/app/components/base/icons/src/vender/solid/development'
 import Tooltip from '@/app/components/base/tooltip'
+import { noop } from 'lodash-es'
+import { useStore } from '@/app/components/workflow/store'
 
 type Props = {
   instanceId?: string
@@ -52,8 +54,10 @@ const Editor: FC<Props> = ({
 
   useEffect(() => {
     onFocusChange?.(isFocus)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocus])
+
+  const pipelineId = useStore(s => s.pipelineId)
+  const setShowInputFieldPanel = useStore(s => s.setShowInputFieldPanel)
 
   return (
     <div className={cn(className, 'relative')}>
@@ -68,7 +72,7 @@ const Editor: FC<Props> = ({
             show: false,
             selectable: false,
             datasets: [],
-            onAddContext: () => { },
+            onAddContext: noop,
           }}
           historyBlock={{
             show: false,
@@ -77,7 +81,7 @@ const Editor: FC<Props> = ({
               user: 'Human',
               assistant: 'Assistant',
             },
-            onEditRole: () => { },
+            onEditRole: noop,
           }}
           queryBlock={{
             show: false,
@@ -90,6 +94,9 @@ const Editor: FC<Props> = ({
               acc[node.id] = {
                 title: node.data.title,
                 type: node.data.type,
+                width: node.width,
+                height: node.height,
+                position: node.position,
               }
               if (node.data.type === BlockEnum.Start) {
                 acc.sys = {
@@ -99,6 +106,8 @@ const Editor: FC<Props> = ({
               }
               return acc
             }, {} as any),
+            showManageInputField: !!pipelineId,
+            onManageInputField: () => setShowInputFieldPanel?.(true),
           }}
           onChange={onChange}
           editable={!readOnly}
@@ -112,7 +121,7 @@ const Editor: FC<Props> = ({
             <Tooltip
               popupContent={`${t('workflow.common.insertVarTip')}`}
             >
-              <div className='cursor-pointer rounded-[5px] border-[0.5px] border-black/5 bg-white p-0.5 shadow-lg hover:bg-gray-100'>
+              <div className='cursor-pointer rounded-[5px] border-[0.5px] border-divider-regular bg-components-badge-white-to-dark p-0.5 shadow-lg'>
                 <Variable02 className='h-3.5 w-3.5 text-components-button-secondary-accent-text' />
               </div>
             </Tooltip>
